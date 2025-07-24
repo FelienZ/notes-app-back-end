@@ -50,7 +50,7 @@ class NotesService{
 
     const result = await this._pool.query(query);
     if (!result.rows.length){
-      throw new NotFoundError('Catatan tidak ditemukan');
+      throw new NotFoundError('Gagal memperbarui catatan. Id tidak ditemukan');
     }
   }
 
@@ -61,7 +61,7 @@ class NotesService{
     };
     const result = await this._pool.query(query);
     if (!result.rows.length){
-      throw new NotFoundError('Catatan tidak ditemukan');
+      throw new NotFoundError('Catatan gagal dihapus. Id tidak ditemukan');
     }
   }
 }
