@@ -18,7 +18,7 @@ class AuthenticationsHandler {
 
     // console.log('user service: ', this._usersService)
     const id = await this._usersService.verifyUserCredential(username, password);
-    console.log('id user credential: ', id) // permasalahan -> id tidak muncul
+    // console.log('id user credential: ', id) // permasalahan -> id tidak muncul
     
     const accessToken = this._tokenManager.generateAccessToken({ id });
     const refreshToken = this._tokenManager.generateRefreshToken({ id });
