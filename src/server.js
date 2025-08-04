@@ -20,6 +20,11 @@ const collaborations = require('./api/collaborations');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations');
 
+const _exports = require('./api/exports');
+const producerService = require('./services/rabbitMQ/producerService');
+const ExportValidator = require('./validator/export');
+
+
 require('dotenv').config();
 const init = async () =>{
   const collaborationsService = new CollaborationsService();
@@ -86,6 +91,13 @@ const init = async () =>{
         notesService,
         validator: CollaborationsValidator,
       },
+    },
+    {
+      plugin: _exports,
+      options:{
+        service: producerService,
+        validator: ExportValidator
+      }
     },
   ]);
   server.ext('onPreResponse', (request, h) => {
