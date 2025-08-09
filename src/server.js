@@ -1,5 +1,6 @@
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const path = require('path')
 
 const notes = require('./api/notes');
 const NotesService = require('./services/postgres/NotesService');
@@ -24,6 +25,10 @@ const _exports = require('./api/exports');
 const producerService = require('./services/rabbitMQ/producerService');
 const ExportValidator = require('./validator/export');
 
+const uploads = require('./api/uploads');
+const uploadsValidator = require('./validator/uploads');
+const storageServices = require('./services/storage/storageServices');
+const inert = require('@hapi/inert');
 
 require('dotenv').config();
 const init = async () =>{
@@ -31,6 +36,8 @@ const init = async () =>{
   const notesService = new NotesService(collaborationsService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
+  const storageService = new storageServices(path.resolve(__dirname, 'api/uploads/file/images'));
+
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
@@ -44,6 +51,9 @@ const init = async () =>{
     {
       plugin: Jwt,
     },
+    {
+      plugin: inert
+    }
   ]);
   server.auth.strategy('notesapp_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
@@ -99,6 +109,13 @@ const init = async () =>{
         validator: ExportValidator
       }
     },
+    {
+      plugin: uploads,
+      options: {
+        service: storageService,
+        validator: uploadsValidator
+      }
+    }
   ]);
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request

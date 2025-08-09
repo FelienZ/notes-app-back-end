@@ -3,3 +3,4 @@ kuchi-api-webserver.pem
 kuchi_credentials.csv
 .env
 .prod.env
+src/api/uploads/file

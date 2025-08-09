@@ -4,9 +4,9 @@ const routes = (handler) => [
     path: '/export/notes',
     handler: handler.postExportNotesHandler,
     options: {
-      auth: 'notesapp_jwt'
-    }
-  }
+      auth: 'notesapp_jwt',
+    },
+  },
 ];
-
+ 
 module.exports = routes;
