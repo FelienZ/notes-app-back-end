@@ -1,6 +1,7 @@
 node_modules
 kuchi-api-webserver.pem
 kuchi_credentials.csv
+kuchi_accessKeys.csv
 .env
 .prod.env
 src/api/uploads/file

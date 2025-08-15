@@ -9,6 +9,7 @@ const routes = (handler) => [
       payload: {
         allow: 'multipart/form-data',
         multipart: true,
+        parse: true,
         output: 'stream',
       },
     },

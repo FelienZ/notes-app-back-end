@@ -27,7 +27,8 @@ const ExportValidator = require('./validator/export');
 
 const uploads = require('./api/uploads');
 const uploadsValidator = require('./validator/uploads');
-const storageServices = require('./services/storage/storageServices');
+// const storageServices = require('./services/storage/storageServices');
+const storageServices = require('./services/S3/StorageServices');
 const inert = require('@hapi/inert');
 
 require('dotenv').config();
@@ -36,8 +37,9 @@ const init = async () =>{
   const notesService = new NotesService(collaborationsService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
-  const storageService = new storageServices(path.resolve(__dirname, 'api/uploads/file/images'));
-
+  // const storageService = new storageServices(path.resolve(__dirname, 'api/uploads/file/images'));
+  const storageService = new storageServices();
+  // console.log(storageService)
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
