@@ -31,10 +31,14 @@ const uploadsValidator = require('./validator/uploads');
 const storageServices = require('./services/S3/StorageServices');
 const inert = require('@hapi/inert');
 
+const CacheService = require('./services/redis/CacheServices');
+
+
 require('dotenv').config();
 const init = async () =>{
-  const collaborationsService = new CollaborationsService();
-  const notesService = new NotesService(collaborationsService);
+  const cacheService = new CacheService()
+  const collaborationsService = new CollaborationsService(cacheService);
+  const notesService = new NotesService(collaborationsService, cacheService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   // const storageService = new storageServices(path.resolve(__dirname, 'api/uploads/file/images'));
